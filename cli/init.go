@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/console"
+	prompt2 "github.com/ethereum/go-ethereum/console/prompt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -19,7 +19,7 @@ func (cli *CLI) buildInitCmd() *cobra.Command {
 			fmt.Println("Initialize config file")
 
 			prompt := fmt.Sprintf("Enter file in which to save (%s): ", defaultConfigFile)
-			configPath, err := console.Stdin.PromptInput(prompt)
+			configPath, err := prompt2.Stdin.PromptInput(prompt)
 			if err != nil {
 				fmt.Println("PromptInput err:", err)
 			}
@@ -29,7 +29,7 @@ func (cli *CLI) buildInitCmd() *cobra.Command {
 			cli.config = configPath
 
 			prompt = fmt.Sprintf("Enter path of log file (%s): ", defaultLogFile)
-			logfile, err := console.Stdin.PromptInput(prompt)
+			logfile, err := prompt2.Stdin.PromptInput(prompt)
 			if err != nil {
 				fmt.Println("PromptInput err:", err)
 			}
@@ -40,7 +40,7 @@ func (cli *CLI) buildInitCmd() *cobra.Command {
 
 			rpcURLV := viper.GetString("rpcURL")
 			prompt = fmt.Sprintf("Enter geth json rpc or ipc url (%s): ", rpcURLV)
-			cli.rpcURL, err = console.Stdin.PromptInput(prompt)
+			cli.rpcURL, err = prompt2.Stdin.PromptInput(prompt)
 			if err != nil {
 				fmt.Println("PromptInput err:", err)
 			}
@@ -50,7 +50,7 @@ func (cli *CLI) buildInitCmd() *cobra.Command {
 			viper.Set("rpcURL", cli.rpcURL)
 
 			prompt = fmt.Sprintf("Configure MySQL database or not: [Y/n] ")
-			configDB, err := console.Stdin.PromptInput(prompt)
+			configDB, err := prompt2.Stdin.PromptInput(prompt)
 			if err != nil {
 				fmt.Println("PromptInput err:", err)
 			}
@@ -61,7 +61,7 @@ func (cli *CLI) buildInitCmd() *cobra.Command {
 
 				dbhost := defaultHost
 				prompt = fmt.Sprintf("Enter database host(%s): ", dbhost)
-				cli.host, err = console.Stdin.PromptInput(prompt)
+				cli.host, err = prompt2.Stdin.PromptInput(prompt)
 				if err != nil {
 					fmt.Println("PromptInput err:", err)
 				}
@@ -71,21 +71,21 @@ func (cli *CLI) buildInitCmd() *cobra.Command {
 				viper.Set("mysql.Host", cli.host)
 
 				prompt = fmt.Sprintf("Enter database name: ")
-				cli.database, err = console.Stdin.PromptInput(prompt)
+				cli.database, err = prompt2.Stdin.PromptInput(prompt)
 				if err != nil {
 					fmt.Println("PromptInput err:", err)
 				}
 				viper.Set("mysql.Database", cli.database)
 
 				prompt = fmt.Sprintf("Enter the username to connect to the database: ")
-				cli.user, err = console.Stdin.PromptInput(prompt)
+				cli.user, err = prompt2.Stdin.PromptInput(prompt)
 				if err != nil {
 					fmt.Println("PromptInput err:", err)
 				}
 				viper.Set("mysql.User", cli.user)
 
 				prompt = fmt.Sprintf("Enter the password for user: ")
-				cli.password, err = console.Stdin.PromptPassword(prompt) // console.Stdin.PromptInput(prompt)
+				cli.password, err = prompt2.Stdin.PromptPassword(prompt) // prompt2.Stdin.PromptInput(prompt)
 				if err != nil {
 					fmt.Println("PromptInput err:", err)
 				}
